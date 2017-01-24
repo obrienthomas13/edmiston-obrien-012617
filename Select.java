@@ -59,12 +59,18 @@ public class Select{
 			
 			//Right pointer
 			if(useLeftPointer){
-				
+				System.out.println("\n USE LEFT POINTER TRUE\n");
+				System.out.println("left pointer " + (leftPointer));
+				System.out.println("right pointer " + (rightPointer));
+				System.out.println("pivot index " + (pivotIndex));
+				System.out.println(toString(numbers));
 				if(numbers.get(leftPointer) > numbers.get(pivotIndex)){
 					temp = numbers.get(pivotIndex);
 					numbers.set(pivotIndex, numbers.get(leftPointer));
 					numbers.set(leftPointer, temp);
+					System.out.println("Moving pivot from: " + pivotIndex + " to " + leftPointer);
 					pivotIndex = leftPointer;
+					System.out.println("Moved pivot from: " + pivotIndex + " to " + leftPointer);
 					useLeftPointer = !useLeftPointer;
 				} else {
 					leftPointer++;
@@ -72,13 +78,19 @@ public class Select{
 				
 				
 			} else{
-				System.out.println("right pointer " + numbers.get(rightPointer));
-				System.out.println("pivot index " + numbers.get(pivotIndex));
+				System.out.println("\n USE LEFT POINTER FALSE \n");
+				System.out.println("left pointer " + (leftPointer));
+				System.out.println("right pointer " + (rightPointer));
+				System.out.println("pivot index " + (pivotIndex));
+					System.out.println(toString(numbers));
 				if(numbers.get(rightPointer) < numbers.get(pivotIndex)){
 					temp = numbers.get(pivotIndex);
 					numbers.set(pivotIndex, numbers.get(rightPointer));
 					numbers.set(rightPointer, temp);
+					System.out.println("Moving pivot from: " + pivotIndex + " to " + rightPointer);
 					pivotIndex = rightPointer;
+					System.out.println("Moved pivot from: " + pivotIndex + " to " + rightPointer);
+
 					useLeftPointer = !useLeftPointer;
 				} else {
 					rightPointer--;
@@ -88,9 +100,9 @@ public class Select{
 			}
 			
 			
-			
 		}
-		
+					System.out.println("\n\n\nEnd of Partition\n\n\n");
+
 		return numbers;
 	}
 
