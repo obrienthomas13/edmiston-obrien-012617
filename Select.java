@@ -17,7 +17,7 @@ public class Select{
 		while (pivotTemp != 0) {
 
 			pivotIndex = (int)(numbers.size() * Math.random());
-			numbers = partition(numbers, pivotIndex, getNumber);
+			numbers = partition(numbers, pivotIndex);
 			pivotTemp = checkPivot(numbers, pivotIndex, getNumber);
 
 			if (pivotTemp == -1) {
@@ -48,7 +48,49 @@ public class Select{
 	}
 
 	// k = numFind
-	public static ArrayList<Integer> partition(ArrayList<Integer> numbers, int pivotIndex, int numFind) {
+	public static ArrayList<Integer> partition(ArrayList<Integer> numbers, int pivotIndex) {
+		int leftPointer = 0;
+		int rightPointer = numbers.size() -1 ;
+		boolean useLeftPointer = false;
+		
+		int temp;
+		
+		while(leftPointer != rightPointer){
+			
+			//Right pointer
+			if(useLeftPointer){
+				
+				if(numbers.get(leftPointer) > numbers.get(pivotIndex)){
+					temp = numbers.get(pivotIndex);
+					numbers.set(pivotIndex, numbers.get(leftPointer));
+					numbers.set(leftPointer, temp);
+					pivotIndex = leftPointer;
+					useLeftPointer = !useLeftPointer;
+				} else {
+					leftPointer++;
+				}
+				
+				
+			} else{
+				System.out.println("right pointer " + numbers.get(rightPointer));
+				System.out.println("pivot index " + numbers.get(pivotIndex));
+				if(numbers.get(rightPointer) < numbers.get(pivotIndex)){
+					temp = numbers.get(pivotIndex);
+					numbers.set(pivotIndex, numbers.get(rightPointer));
+					numbers.set(rightPointer, temp);
+					pivotIndex = rightPointer;
+					useLeftPointer = !useLeftPointer;
+				} else {
+					rightPointer--;
+				}
+				
+				
+			}
+			
+			
+			
+		}
+		
 		return numbers;
 	}
 
