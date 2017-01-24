@@ -8,15 +8,30 @@ public class Select{
 		ArrayList<Integer> numbers = getInputFromFile();
 
 		if (getNumber > numbers.size()) {
-			System.out.println("BAD DATA");
-			return;
+			throw new UnsupportedOperationException("BAD DATA");
 		}
 
-		int randNum = (int)(numbers.size() * Math.random());
+		int pivotIndex = -1;
+		int pivotTemp = -2;
 
-		for (int i = 0; i < numbers.size(); i++) {
-			System.out.print(numbers.get(i));
+		while (pivotTemp != 0) {
+
+			pivotIndex = (int)(numbers.size() * Math.random());
+			numbers = partition(numbers, pivotIndex, getNumber);
+			pivotTemp = checkPivot(numbers, pivotIndex, getNumber);
+
+			if (pivotTemp == -1) {
+				numbers = new ArrayList<Integer>(numbers.subList(0, pivotIndex - 2));
+			} else if (pivotTemp == 1) {
+				numbers = new ArrayList<Integer>(numbers.subList(pivotIndex, numbers.size() - 1));
+			}
 		}
+
+		if (pivotTemp != 0 || pivotIndex == -1) {
+			throw new UnsupportedOperationException("It doesn't equal 0 past the while loop");
+		}
+
+		System.out.println(numbers.get(pivotIndex));
 
 	}
 
@@ -32,8 +47,29 @@ public class Select{
 		return numbers;
 	}
 
-	public static int partition(ArrayList<Integer> numbers, int numFind) {
-		return 0;
+	// k = numFind
+	public static ArrayList<Integer> partition(ArrayList<Integer> numbers, int pivotIndex, int numFind) {
+		return numbers;
+	}
+
+	public static int checkPivot(ArrayList<Integer> numbers, int pivotIndex, int numFind) {
+		if (pivotIndex + 1 > numFind) {
+			return -1;
+		} else if (pivotIndex + 1 == numFind) {
+			return 0;
+		} else if (pivotIndex + 1 < numFind) {
+			return 1;
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	public static String toString(ArrayList<Integer> numbers) {
+		String str = "";
+		for (int i = 0; i < numbers.size(); i++) {
+			str = str + numbers.get(i) + " ";
+		}
+		return str;
 	}
 
 }
