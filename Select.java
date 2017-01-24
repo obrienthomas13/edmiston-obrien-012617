@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Select{
-
+	private static int getNumber;
 	public static void main(String[] args) throws Exception{
 
-		int getNumber = Integer.parseInt(args[0]);
+		getNumber = Integer.parseInt(args[0]);
 		ArrayList<Integer> numbers = getInputFromFile();
 
 		if (getNumber > numbers.size()) {
@@ -18,13 +18,7 @@ public class Select{
 
 			pivotIndex = (int)(numbers.size() * Math.random());
 			numbers = partition(numbers, pivotIndex);
-			pivotTemp = checkPivot(numbers, pivotIndex, getNumber);
-
-			if (pivotTemp == -1) {
-				numbers = new ArrayList<Integer>(numbers.subList(0, pivotIndex - 2));
-			} else if (pivotTemp == 1) {
-				numbers = new ArrayList<Integer>(numbers.subList(pivotIndex, numbers.size() - 1));
-			}
+			
 		}
 
 		if (pivotTemp != 0 || pivotIndex == -1) {
@@ -51,7 +45,7 @@ public class Select{
 	public static ArrayList<Integer> partition(ArrayList<Integer> numbers, int pivotIndex) {
 		int leftPointer = 0;
 		int rightPointer = numbers.size() -1 ;
-		boolean useLeftPointer = false;
+		boolean useLeftPointer = true;
 		
 		int temp;
 		
@@ -73,7 +67,12 @@ public class Select{
 					System.out.println("Moved pivot from: " + pivotIndex + " to " + leftPointer);
 					useLeftPointer = !useLeftPointer;
 				} else {
-					leftPointer++;
+					if(leftPointer < pivotIndex){
+						leftPointer++;	
+					} else {
+						useLeftPointer = !useLeftPointer;
+					}
+					
 				}
 				
 				
@@ -92,7 +91,11 @@ public class Select{
 					System.out.println("Moved pivot from: " + pivotIndex + " to " + rightPointer);
 
 					useLeftPointer = !useLeftPointer;
-				} else {
+				} else {if(leftPointer < pivotIndex){
+						leftPointer++;	
+					} else {
+						useLeftPointer = !useLeftPointer;
+					}
 					rightPointer--;
 				}
 				
@@ -101,17 +104,25 @@ public class Select{
 			
 			
 		}
+			int pivotTemp = checkPivot(numbers, pivotIndex);
+
+			if (pivotTemp == -1) {
+				numbers = new ArrayList<Integer>(numbers.subList(0, pivotIndex));
+			} else if (pivotTemp == 1) {
+				numbers = new ArrayList<Integer>(numbers.subList(pivotIndex, numbers.size() - 1));
+				getNumber -= pivotIndex;
+			}
 					System.out.println("\n\n\nEnd of Partition\n\n\n");
 
 		return numbers;
 	}
 
-	public static int checkPivot(ArrayList<Integer> numbers, int pivotIndex, int numFind) {
-		if (pivotIndex + 1 > numFind) {
+	public static int checkPivot(ArrayList<Integer> numbers, int pivotIndex) {
+		if (pivotIndex + 1 > getNumber) {
 			return -1;
-		} else if (pivotIndex + 1 == numFind) {
+		} else if (pivotIndex + 1 == getNumber) {
 			return 0;
-		} else if (pivotIndex + 1 < numFind) {
+		} else if (pivotIndex + 1 < getNumber) {
 			return 1;
 		} else {
 			throw new UnsupportedOperationException();
