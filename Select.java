@@ -7,6 +7,7 @@ public class Select{
 	public static void main(String[] args) throws Exception {
 
 		getNumber = Integer.parseInt(args[0]);
+		
 		ArrayList<Integer> numbers = getInputFromFile();
 
 		final long startTime = System.currentTimeMillis();
@@ -14,12 +15,12 @@ public class Select{
 		if (getNumber > numbers.size()) {
 			throw new UnsupportedOperationException("BAD DATA");
 		}
-
 		System.out.println(partition(numbers, 0, numbers.size()-1));
 
 		final long endTime = System.currentTimeMillis();
 
-		System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
+		//Used to test the runtime of our partition
+		//System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
 	}
 
 	// Returns an ArrayList<Integer> from a file that the user chooses.
@@ -31,7 +32,11 @@ public class Select{
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 
 		while (s != null) {
-			numbers.add(Integer.parseInt(s));
+			try{
+				numbers.add(Integer.parseInt(s));
+			}catch (Exception e){
+				throw new UnsupportedOperationException("BAD DATA");
+			}
 			s = stdIn.readLine();
 		}
 
