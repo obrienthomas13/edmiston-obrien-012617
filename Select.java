@@ -94,7 +94,7 @@ public class Select{
 				// System.out.println("right pointer " + (rightPointer));
 				// System.out.println("pivot index " + (pivotIndex));
 				// System.out.println(toString(numbers));
-				if (numbers.get(rightPointer) < numbers.get(pivotIndex)) {
+				if (numbers.get(rightPointer) <= numbers.get(pivotIndex)) {
 					temp = numbers.get(pivotIndex);
 					numbers.set(pivotIndex, numbers.get(rightPointer));
 					numbers.set(rightPointer, temp);
@@ -115,7 +115,11 @@ public class Select{
 
 			// System.out.println("\n Left Pointer: " + leftPointer + "  Right Pointer: " + rightPointer + "\n");
 		}
-		int pivotTemp = checkPivot(numbers, pivotIndex);
+		
+		// Some code to run on the left of the pivot for repitition
+		
+		int pivotTemp = checkPivot(numbers, pivotIndex, pivotIndex);
+		
 		// fix this
 		// System.out.println("startIndex: " + startIndex);
 		// System.out.println("pivotIndex: " + pivotIndex);
@@ -130,16 +134,16 @@ public class Select{
 
 		}
 		// System.out.println("\n\n\nEnd of Partition\n\n\n");
-
+		System.out.println(toString(numbers));
 		return numbers.get(pivotIndex);
 	}
 
-	public static int checkPivot(ArrayList<Integer> numbers, int pivotIndex) {
-		if (pivotIndex + 1 > getNumber) {
+	public static int checkPivot(ArrayList<Integer> numbers, int smallPivotIndex, int largePivotIndex) {
+		if (smallPivotIndex + 1 > getNumber) {
 			return -1;
-		} else if (pivotIndex + 1 == getNumber) {
+		} else if (smallPivotIndex + 1 <= getNumber && getNumber <= largePivotIndex + 1) {
 			return 0;
-		} else if (pivotIndex + 1 < getNumber) {
+		} else if (largePivotIndex + 1 < getNumber) {
 			return 1;
 		} else {
 			throw new UnsupportedOperationException();
