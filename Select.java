@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Select{
 	private static int getNumber;
-	
-	
+
+
 	public static void main(String[] args) throws Exception{
 
 		getNumber = Integer.parseInt(args[0]);
@@ -12,7 +12,7 @@ public class Select{
 			throw new UnsupportedOperationException("BAD DATA");
 		}
 
-		
+
 		int pivotIndex = -1;
 		int pivotTemp = -2;
 
@@ -21,10 +21,10 @@ public class Select{
 
 			pivotIndex = (int)(numbers.size() * Math.random());
 			numbers = partition(numbers, pivotIndex);
-			
+
 		}*/
 
-		
+
 
 		System.out.println(partition(numbers, 0, numbers.size()-1));
 
@@ -44,84 +44,92 @@ public class Select{
 
 	// k = numFind
 	public static int partition(ArrayList<Integer> numbers, int startIndex, int endIndex) {
-		int pivotIndex = (int)(numbers.size() * Math.random());
+		int pivotIndex = startIndex + (int)((endIndex-startIndex) * Math.random());
 
 		int leftPointer = startIndex;
 		int rightPointer = endIndex;
-		if(startIndex < 0 || endIndex > numbers.size()){
+		if (startIndex < 0 || endIndex > numbers.size()) {
 			throw new UnsupportedOperationException("Start or end index invalid");
 		}
 		boolean useLeftPointer = true;
-		
+
+		boolean pivotEqualsLeft = false;
+		boolean pivotEqualsRight = false;
+
 		int temp;
-		
-		while(leftPointer != rightPointer){
-			
+
+		// while((leftPointer != rightPointer) && (!pivotEqualsRight || !pivotEqualsLeft)){
+		// while(!(leftPointer > rightPointer) && leftPointer != rightPointer){
+		while (leftPointer != rightPointer) {
 			//Right pointer
 			if(useLeftPointer){
-				System.out.println("\n USE LEFT POINTER TRUE\n");
-				System.out.println("left pointer " + (leftPointer));
-				System.out.println("right pointer " + (rightPointer));
-				System.out.println("pivot index " + (pivotIndex));
-				System.out.println(toString(numbers));
+				// System.out.println("\n USE LEFT POINTER TRUE\n");
+				// System.out.println("left pointer " + (leftPointer));
+				// System.out.println("right pointer " + (rightPointer));
+				// System.out.println("pivot index " + (pivotIndex));
+				// System.out.println(toString(numbers));
 				if(numbers.get(leftPointer) > numbers.get(pivotIndex)){
 					temp = numbers.get(pivotIndex);
 					numbers.set(pivotIndex, numbers.get(leftPointer));
 					numbers.set(leftPointer, temp);
-					System.out.println("Moving pivot from: " + pivotIndex + " to " + leftPointer);
+					// System.out.println("Moving pivot from: " + pivotIndex + " to " + leftPointer);
 					pivotIndex = leftPointer;
-					System.out.println("Moved pivot from: " + pivotIndex + " to " + leftPointer);
+					// System.out.println("Moved pivot from: " + pivotIndex + " to " + leftPointer);
 					useLeftPointer = !useLeftPointer;
 				} else {
 					if(leftPointer < pivotIndex){
-						leftPointer++;	
+						// System.out.println("here1");
+						leftPointer++;
 					} else {
+						// System.out.println("there1");
 						useLeftPointer = !useLeftPointer;
 					}
-					
+
 				}
-				
-				
-			} else{
-				System.out.println("\n USE LEFT POINTER FALSE \n");
-				System.out.println("left pointer " + (leftPointer));
-				System.out.println("right pointer " + (rightPointer));
-				System.out.println("pivot index " + (pivotIndex));
-					System.out.println(toString(numbers));					
-				if(numbers.get(rightPointer) < numbers.get(pivotIndex)){
+
+
+			} else {
+				// System.out.println("\n USE LEFT POINTER FALSE \n");
+				// System.out.println("left pointer " + (leftPointer));
+				// System.out.println("right pointer " + (rightPointer));
+				// System.out.println("pivot index " + (pivotIndex));
+				// System.out.println(toString(numbers));
+				if (numbers.get(rightPointer) < numbers.get(pivotIndex)) {
 					temp = numbers.get(pivotIndex);
 					numbers.set(pivotIndex, numbers.get(rightPointer));
 					numbers.set(rightPointer, temp);
-					System.out.println("Moving pivot from: " + pivotIndex + " to " + rightPointer);
+					// System.out.println("Moving pivot from: " + pivotIndex + " to " + rightPointer);
 					pivotIndex = rightPointer;
-					System.out.println("Moved pivot from: " + pivotIndex + " to " + rightPointer);
-
+					// System.out.println("Moved pivot from: " + pivotIndex + " to " + rightPointer);
 					useLeftPointer = !useLeftPointer;
-				} else {if(leftPointer < pivotIndex){
-						leftPointer++;	
+				} else {
+					if (rightPointer > pivotIndex) {
+						// System.out.println("here2");
+						rightPointer--;
 					} else {
+						// System.out.println("there2");
 						useLeftPointer = !useLeftPointer;
 					}
-					rightPointer--;
 				}
-				
-				
 			}
-			
-			System.out.println("\n Left Pointer: " + leftPointer + "  Right Pointer: " + rightPointer + "\n");
+
+			// System.out.println("\n Left Pointer: " + leftPointer + "  Right Pointer: " + rightPointer + "\n");
 		}
-			int pivotTemp = checkPivot(numbers, pivotIndex);
-			// fix this
-			if (pivotTemp == -1) {
-				//numbers = new ArrayList<Integer>(numbers.subList(0, pivotIndex));
-				return partition(numbers, startIndex, pivotIndex);
-			} else if (pivotTemp == 1) {
-				//numbers = new ArrayList<Integer>(numbers.subList(pivotIndex, numbers.size() - 1));
-				getNumber -= pivotIndex;
-				return partition(numbers, pivotIndex, endIndex);
-				
-			}
-			System.out.println("\n\n\nEnd of Partition\n\n\n");
+		int pivotTemp = checkPivot(numbers, pivotIndex);
+		// fix this
+		// System.out.println("startIndex: " + startIndex);
+		// System.out.println("pivotIndex: " + pivotIndex);
+		// System.out.println("endIndex: " + endIndex);
+		if (pivotTemp == -1) {
+			//numbers = new ArrayList<Integer>(numbers.subList(0, pivotIndex));
+			return partition(numbers, startIndex, pivotIndex - 1);
+		} else if (pivotTemp == 1) {
+			//numbers = new ArrayList<Integer>(numbers.subList(pivotIndex, numbers.size() - 1));
+			// getNumber -= pivotIndex + 1;
+			return partition(numbers, pivotIndex + 1, endIndex);
+
+		}
+		// System.out.println("\n\n\nEnd of Partition\n\n\n");
 
 		return numbers.get(pivotIndex);
 	}
